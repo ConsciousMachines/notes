@@ -202,3 +202,145 @@ Q
 	ANS: no they are same thing. i figured it out by implementing example 20.
 
 
+
+
+- - - chapter 3: resampling
+
+	non-parametric techniques for computing standard error (~variance) (and thus confidence intervals)
+
+	- Bootstrap
+		we use data to determine variance, and distribution of an estimator.
+		(estimator for an unknown parameter theta)
+
+		a parameter is a FUNCTIONAL that takes a distribution F and returns a number.
+
+			mean is integral wrt dF(x)
+			median is F^-1(1/2)
+			variance is integral of x^2 wrt dF(x) and then subtract mean^2 
+
+		PLUG-IN PRINCIPLE: iid sample X1..Xn from dist F. Fn-hat is estimate of F (from n samples)
+			estiate theta using theta-hat = T(Fn-hat)
+			aka plug in the estimated distribution into the functional, to get the parameter estimate.
+			
+			[i guess in this chapter we talk about functionals since we have non-parametric dist based on data]
+
+		bootstrap is used to make inference about (theta-hat - theta) which is BIAS of estimator.
+
+			a random sample from Fn-hat is used to estimate theta-hat from theta*-hat. 
+
+			then we assume (theta-hat - theta) ~= (theta*-hat - theta-hat)
+
+			[so we have our distribution approximation Fn-hat]
+			[we take a sample from it and calculate theta*-hat]
+			[then we hope the bias, theta*-hat - theta-hat is distributed similar to theta-hat - theta]
+
+			Bias_F(theta-hat) = E_F(theta-hat - theta) 
+				~= E_Fn(theta*-hat - theta-hat)
+				[who said this is true??]
+
+			Var_F(theta-hat - theta) ~= Var_Fn(theta*-hat - theta-hat)
+
+			Fn-hat is known, thus we can find properties of the distribution theta*-hat - theta-hat 
+				(analytically or using MC)
+
+	- Parametric Bootstrap 
+
+		F from parametric family of distributions, indexed by C. 
+
+		theta = T(F_C)
+
+		we have likelihood fn, can get theta using MLE. get C-hat.
+			by invariant property, MLE of F_C and theta are:
+			F_C-hat
+			theta-hat = T(T_C-hat)
+
+		X1*..Xn* are random sample from F_C-hat 
+
+			C*-hat is MLE of C-hat using this data.
+			[remember, C-hat is the "true" distribution parameter, so C*-hat estimates C-hat]
+
+		to get the VARIANCE OF THETA-HAT,
+
+			Var(theta-hat)
+
+			Var_F(theta-hat - theta)   
+									[since variance doesn't change when we subtract a constant]
+									[and in frequentist stats, theta is constant]
+			~= Var_Fn(theta*-hat - theta-hat)
+									[we approximate F using Fn-hat]
+									[draw sample to get theta*-hat]
+									[subtract "known" theta-hat to get variance]
+
+			the analytical solution tells us about the distribution of (theta*-hat - theta-hat)
+
+			when we cant get analytical soln, 
+				simulate B random samples from F_C-hat
+				which yields B estimates theta*-hat_i   (for i in B)  which are esimtates of theta-hat 
+				then calculate empirical bias & var:
+
+				Bias(theta-hat) = 1/B sum (theta*-hat_i - theta-hat)
+
+				Var(theta-hat) = 1/B-1 sum (theta*-hat - theta-hat)^2
+
+	- Nonparametric Bootstrap 
+
+		the estimate of F is the empirical cdf Fn-hat, 
+
+			Fn-hat(x) = 1/n sum_1^n I(Xi <= x)
+
+				= #{Xi <= x} / n 
+
+			it is a discrete dist and puts equal weight on each observation.
+
+			it is unbiased:
+
+				E_F( Fn-hat(x) ) = 1/n sum_1^n E_F( I(Xi <= x) )
+
+				= 1/n sum_1^n P_F(Xi <= x)
+
+				= 1/n sum_1^n F(x)
+
+				= F(x)
+
+			also, it is strongly consistent: 
+
+				Fn-hat(x) -as-> F(x) forall x 
+
+		mu = T(F) = integral x dF(x)
+
+		T(Fn-hat) = integral x dFn-hat(x) = 1/n sum_1^n Xi = Xbar (bc discrete cdf)
+
+		in this case, sampling from Fn-hat is the same as resampling from X1..Xn (since non-parametric)
+
+		
+
+
+
+
+		
+		
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
