@@ -312,7 +312,60 @@ Q
 
 		in this case, sampling from Fn-hat is the same as resampling from X1..Xn (since non-parametric)
 
-		
+			as opposed to the parametric case where we are given a distribution (with estimated parameters) 
+			and we sample from it. 
+
+			but here the cdf is empirical so we only have point masses at the observed values,
+			and with equal probability. so sampling this cdf means choosing from the point masses 
+			with equal probability. which means resampling. 
+
+	
+
+
+re-read:
+method 3: studentized pivotal interval 
+method 4: percentile intervals 
+
+
+	- - - Jackknife
+
+		used to estimate bias, SE 
+
+		to estimate the bias we remove one observation and recompute theta-hat,
+			from the (n-1) remaining observations 
+			call this thing theta-hat(-i)
+
+			we will have (n) such theta-hat(-i) things. we take their mean to be theta-bar 
+
+		Bias(theta-hat) = E[theta-hat] - theta 
+
+		jacknife estimate of bias is 
+
+			Bias-hat(theta-hat) = (n-1)(theta-bar - theta-hat)
+			
+				[explained later]
+
+		WE ASSUME THE BIAS TAKES THIS FORM, GIVEN n:
+			E[theta-hat] = theta + a1(theta) / n 
+
+				a1(theta) depends on the distribution of Xi and theta, but not on n 
+			
+			[we are talking about theta-hat given sample size n]
+			[this usually appears in a lot of estimators]
+			[so this wouldnt work for say Xbar + 1, because the bias is constant and not divided by n]
+
+		thus 
+			Bias(theta-hat) = a1(theta) / n
+
+			E[theta-hat(-i)] = theta + a1(theta) / n-1 
+
+			E[theta-bar] = theta + a1(theta) / n-1 
+
+			E[theta-bar - theta-hat] = a1(theta) / n(n-1)
+
+			thus unbiased estimator of the bias is:
+
+			n(n-1) (theta-bar - theta-hat) 
 
 
 
