@@ -1,4 +1,20 @@
 
+# - - - how to install old shit 
+# this script uses pythoon 2.7 since it has from __future__ import print_function
+# 1. conda create -n tf_old python=2.7 ipython
+# download oldest tensorflow from 2017, for python 2.7
+# 2. https://pypi.org/project/tensorflow/1.4.1/#files
+# downgrade the microsoft python extension to work with python 2.7
+# 3. on the extension page, under remove, click "download another version" and get v2021.9.1246542782.
+# install pillow, in the actiavted env. 
+# 4. conda activate tf_old
+#    pip install pillow
+# for tensorboard, from the deep-dram directory, run:
+# 5. mkdir tb_graph
+#    /home/chad/miniconda3/envs/tf_old/bin/tensorboard --logdir tb_graph
+
+
+
 # music
 # https://www.youtube.com/watch?v=AlPpnvLbWBE&list=RDHhkGh2cqvE0&index=16
 # https://www.youtube.com/watch?v=tADuImz6pJk
@@ -6,22 +22,30 @@
 # https://www.youtube.com/watch?v=fD6aIZhFDJU&list=RDGMEMYH9CUrFO7CfLJpaD7UR85w&index=2
 # https://youtu.be/ZZIDRnErsPc?list=RDGMEMYH9CUrFO7CfLJpaD7UR85w
 
+
+
+
+
 # Showing the lap_normalize graph with TensorBoard
 #lap_graph = tf.Graph()
 #with lap_graph.as_default():
 #    lap_in = tf.placeholder(np.float32, name='lap_in')
 #    lap_out = lap_normalize(lap_in)
 
+
+
 # https://github.com/bapoczos/deep-dream-tensorflow/blob/master/deepdream.ipynb
 
 
 import os
+import sys 
 import numpy as np
 import PIL.Image as im
 import tensorflow as tf
 
-out_dir = r'C:\Users\i_hat\Desktop\bastl\py\deep_larn\deep_dram'
-model_fn = os.path.join(out_dir, r'inception5h\tensorflow_inception_graph.pb')
+out_dir = r'/home/chad/Desktop/_backups/notes/my_ML/deep_dram'
+model_fn = os.path.join(out_dir, r'inception5h/tensorflow_inception_graph.pb')
+os.chdir(out_dir)
 
 # creating TensorFlow session and loading the model from the model_fn file 
 graph = tf.Graph()
@@ -60,12 +84,49 @@ def showarray(a): # create a jpeg file from an array a and visualize it
 def visstd(a, s = 0.1): # Normalize the image range for visualization
     return (a - a.mean()) / max(a.std(), 1e-4) * s + 0.5 # i think this is an arbitrary way to put array in the range 0,1
 
-
-
-
 pops = graph.get_operations()[:10]
 for i, op in enumerate(pops):
     print(i, op.name)
+
+
+
+# T E N S O R B O A R D 
+
+# https://stackoverflow.com/questions/42003846/retraining-inception5h-model-from-tensorflow-android-camera-demo
+# https://github.com/googlecodelabs/tensorflow-for-poets-2/blob/master/scripts/graph_pb2tb.py
+
+def graph_to_tensorboard(graph, out_dir):
+  with tf.Session():
+    train_writer = tf.summary.FileWriter(out_dir)
+    train_writer.add_graph(graph)
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+graph_to_tensorboard(graph, 'tb_graph/inception5h')
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #   R E N D E R   N A I V E 
@@ -139,8 +200,6 @@ for octave in range(3): # number of octaves
         g                          /= g.std() + 1e-8 # normalizing the gradient, so the same step size should work for different layers and networks
         img                        += g # update 
 showarray(visstd(img))
-
-
 
 
 
@@ -234,8 +293,8 @@ showarray(visstd(img))
 img0                                = np.float32(im.open(os.path.join(out_dir, 'android.png')))
 t_obj                               = T(layer)[:,:,:,66]
 step                                = 1.5
-octave_n                            = 4
-octave_scale                        = 1.4
+octave_n                            = 2
+octave_scale                        = 1.1
 
 t_score                             = tf.reduce_mean(t_obj) # defining the optimization objective
 t_grad                              = tf.gradients(t_score, t_input)[0] # behold the power of automatic differentiation!

@@ -1,4 +1,3 @@
 *.[oa]
 *.out
-CUDA/cuda-samples-11.6
-LearnOpenGL-master
+ignore

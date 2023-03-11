@@ -1,39 +1,10 @@
 
-# VISUALIZE H5 GRAPH
-# https://stackoverflow.com/questions/42003846/retraining-inception5h-model-from-tensorflow-android-camera-demo
-# https://github.com/googlecodelabs/tensorflow-for-poets-2/blob/master/scripts/graph_pb2tb.py
-'''
+# aleksander morgintsev has created a version of deep dream in C89 because 
+# he found it impossible to recreate the old 
+# deep dream algo due to the amount of software reliance issues. 
+# so one way for me to do something similar is to save the inception--5h network 
+# architecture and weights into De-Zero !!!
 
-import os
-import tensorflow as tf
-
-def load_graph(graph_pb_path):
-  with open(graph_pb_path,'rb') as f:
-    content = f.read()
-  graph_def = tf.GraphDef()
-  graph_def.ParseFromString(content)
-  with tf.Graph().as_default() as graph:
-    tf.import_graph_def(graph_def, name='')
-  return graph
-
-  
-def graph_to_tensorboard(graph, out_dir):
-  with tf.Session():
-    train_writer = tf.summary.FileWriter(out_dir)
-    train_writer.add_graph(graph)
-
-out_dir = r'C:\Users\i_hat\Desktop\bastl\py\deep_larn\deep_dram'
-model_fn = r'C:\Users\i_hat\Desktop\bastl\py\deep_larn\deep_dram\inception5h\tensorflow_inception_graph.pb'
-  
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-graph = load_graph(model_fn)
-graph_to_tensorboard(graph, out_dir)
-'''
-
-'''
-C:\Users\i_hat\miniconda3\envs\tf_old\Scripts\tensorboard --logdir tb_graph
-http://192.168.1.66:6006
-'''
 
 # https://github.com/ProGamerGov/pytorch-old-tensorflow-models
 # https://pytorch.org/hub/pytorch_vision_inception_v3/
@@ -41,6 +12,10 @@ http://192.168.1.66:6006
 # ^ seems the pytorch inception v3 has conv_black be a normal nn.Conv2D + batch_norm. so 5h has no batch_norm?
 
 # https://www.tensorflow.org/tutorials/generative/deepdream
+
+# https://arxiv.org/pdf/1610.02391.pdf
+# https://www.kaggle.com/code/sironghuang/understanding-pytorch-hooks/notebook 
+
 
 
 ''' numerical (in)compatibility with pytorch. after just one conv they are already apart by > 0.0001
@@ -68,6 +43,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+torch.cuda.is_available()
 
 class Inception5h(nn.Module):
     def __init__(self):
@@ -332,11 +308,16 @@ def visstd(a, s = 0.1): # Normalize the image range for visualization
 
 
 
-out_dir = r'C:\Users\i_hat\Desktop\bastl\py\deep_larn\deep_dram'
+out_dir = r'/home/chad/Desktop/_backups/notes/my_ML/deep_dram'
+
+_weights_path = r'/home/chad/Desktop/_backups/notes/ignore/pytorch-old-tensorflow-models-master/inception5h.pth'
 
 incep = Inception5h()
-incep.load_state_dict(torch.load(os.path.join(out_dir, r'pytorch-old-tensorflow-models-master\inception5h.pth')))
+incep.load_state_dict(torch.load(os.path.join(out_dir, _weights_path)))
 incep.eval()
+
+
+os.getcwd()
 
 
 

@@ -1,5 +1,16 @@
 
 
+- 680 vids notes
+	- 8
+	- early layers compute basis functions, later layers just take linear combinations of them 
+	- multilayer NNs allow us to essentially modify the weight of y = w phi(x) and also modify the basis function phi at the same time.
+	- optimizers: lec 9, 1:09:40
+	- breakthrus:
+		gradient vanishing fixed by relu
+		overfitting fixed by dropout
+	- as we increase layers, the number of units needed decreases exponentially
+
+
 
 - - - 680 notes
 	- D

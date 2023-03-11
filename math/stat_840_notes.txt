@@ -1,5 +1,17 @@
 
 
+- 840 bonus questions
+	- can we drop a number in \propto if it can be equal to 0?
+	- A2 Q7: how to interpret monitor?
+		- the time series looks consistent. 
+		- the acf gives something at T=1, but is this even Markov, since yn depends on xn depends on yn-1 ???
+			are we supposed to interleave x,y and then check acf?
+		- how to interpret marginal histogram?
+	- why does independent MH have a = pi_y g_x / pi_x g_y but random walk only has pi_y / pi_x ??? are g_x and g_y assumed similar?
+
+
+
+
 
 - - - 840 notes
 	- Rao Blackwell Thm says you can always get a smaller variance estimator by conditioning on suff stat
