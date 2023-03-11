@@ -44,7 +44,7 @@ import PIL.Image as im
 import tensorflow as tf
 
 out_dir = r'/home/chad/Desktop/_backups/notes/my_ML/deep_dram'
-model_fn = os.path.join(out_dir, r'inception5h/tensorflow_inception_graph.pb')
+model_fn = os.path.join(out_dir, r'/home/chad/Desktop/_backups/notes/ignore/inception5h/tensorflow_inception_graph.pb')
 os.chdir(out_dir)
 
 # creating TensorFlow session and loading the model from the model_fn file 
